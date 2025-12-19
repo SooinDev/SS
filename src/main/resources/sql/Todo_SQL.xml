@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ss.mapper.TodoMapper">
+
+  <insert id="insertTodo" parameterType="com.ss.vo.TodoVO">
+    INSERT INTO todo (content) VALUES (#{content})
+  </insert>
+
+  <select id="selectList" resultType="com.ss.vo.TodoVO">
+    SELECT no, content, reg_date
+    FROM todo
+    ORDER BY no DESC
+  </select>
+
+  <delete id="deleteTodo" parameterType="long">
+    DELETE FROM todo WHERE no = #{no}
+  </delete>
+
+</mapper>
