@@ -167,7 +167,7 @@ dataSource.setPassword("your_password");
 ## 👤 개발자
 
 **Your Name**
-- GitHub: [@your-github](https://github.com/SooinDev)
+- GitHub: [@SooinDev](https://github.com/SooinDev)
 - Email: alwayswithsound@gmail.com
 
 ---
