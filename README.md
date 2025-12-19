@@ -167,8 +167,8 @@ dataSource.setPassword("your_password");
 ## 👤 개발자
 
 **Your Name**
-- GitHub: [@your-github](https://github.com/your-github)
-- Email: your.email@example.com
+- GitHub: [@your-github](https://github.com/SooinDev)
+- Email: alwayswithsound@gmail.com
 
 ---
 
