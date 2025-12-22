@@ -26,10 +26,10 @@ public class MainController {
         Scanner scanner = new Scanner(System.in);
         SimpleDateFormat sdf = new SimpleDateFormat("MM-dd HH:mm");
 
-        System.out.println(ANSI_CYAN + "==========================================");
+        System.out.println(ANSI_CYAN + "===================================================");
         System.out.println("   ss (Ver 1.0) - Online");
         System.out.println("   명령어: add [내용], list, delete [번호], exit");
-        System.out.println("==========================================" + ANSI_RESET);
+        System.out.println("===================================================" + ANSI_RESET);
 
         while (true) {
             System.out.print(ANSI_YELLOW + "ss > " + ANSI_RESET);
@@ -39,6 +39,7 @@ public class MainController {
 
             if (input.equalsIgnoreCase("exit")) {
                 System.out.println("시스템을 종료합니다. Bye!");
+                System.exit(0);
                 break;
             }
 
