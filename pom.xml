@@ -94,6 +94,13 @@
       <groupId>ch.qos.logback</groupId>
       <artifactId>logback-classic</artifactId>
       <version>1.2.12</version> </dependency>
+
+    <!-- JLine 3: 터미널 입력 처리 (한글 백스페이스 문제 해결) -->
+    <dependency>
+      <groupId>org.jline</groupId>
+      <artifactId>jline</artifactId>
+      <version>3.21.0</version>
+    </dependency>
   </dependencies>
 
   <build>

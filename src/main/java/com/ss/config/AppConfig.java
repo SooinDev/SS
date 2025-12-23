@@ -31,10 +31,21 @@ public class AppConfig {
     public DataSource dataSource() {
         HikariDataSource dataSource = new HikariDataSource();
         dataSource.setDriverClassName("org.mariadb.jdbc.Driver");
-        dataSource.setJdbcUrl("jdbc:mariadb://localhost:3306/ss?characterEncoding=UTF-8&serverTimezone=Asia/Seoul");
 
+        // 한글 인코딩 최적화: UTF-8 설정 + useUnicode 옵션
+        String jdbcUrl = "jdbc:mariadb://localhost:3306/ss" +
+                "?useUnicode=true" +
+                "&characterEncoding=UTF-8" +
+                "&connectionCollation=utf8mb4_unicode_ci" +
+                "&serverTimezone=Asia/Seoul";
+
+        dataSource.setJdbcUrl(jdbcUrl);
         dataSource.setUsername(env.getProperty("db.id"));
         dataSource.setPassword(env.getProperty("db.pw"));
+
+        // 커넥션 풀 설정
+        dataSource.setMaximumPoolSize(10);
+        dataSource.setMinimumIdle(2);
 
         return dataSource;
     }
