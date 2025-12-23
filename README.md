@@ -10,6 +10,7 @@
 [![Spring](https://img.shields.io/badge/Spring-5.3.31-6DB33F?style=for-the-badge&logo=spring&logoColor=white)](https://spring.io/)
 [![MyBatis](https://img.shields.io/badge/MyBatis-3.5.13-FF0000?style=for-the-badge)](https://mybatis.org/)
 [![MariaDB](https://img.shields.io/badge/MariaDB-003545?style=for-the-badge&logo=mariadb&logoColor=white)](https://mariadb.org/)
+[![JLine](https://img.shields.io/badge/JLine-3.21.0-orange?style=for-the-badge)](https://github.com/jline/jline3)
 
 [특징](#-주요-특징) • [설치](#-빠른-시작) • [사용법](#-사용법) • [개발](#-개발-가이드)
 
@@ -28,6 +29,7 @@
 |:---:|:---|
 | 🚀 **빠른 실행** | 터미널에서 즉시 실행 가능한 경량 애플리케이션 |
 | 🎨 **컬러 인터페이스** | ANSI 색상을 활용한 직관적인 UI/UX |
+| 🇰🇷 **한글 완벽 지원** | JLine 3 기반 한글 입력/편집 완벽 지원 (백스페이스, 방향키) |
 | 🏗️ **엔터프라이즈 아키텍처** | Spring DI, MyBatis ORM을 활용한 계층형 구조 |
 | 💾 **영속성 보장** | MariaDB 기반 안정적인 데이터 저장 |
 | ⚡ **고성능** | HikariCP 커넥션 풀을 통한 최적화된 DB 연결 |
@@ -44,9 +46,11 @@ Spring 5.3.31     │ DI/IoC 컨테이너 및 트랜잭션 관리
 MyBatis 3.5.13    │ SQL Mapper 프레임워크
 MariaDB           │ 관계형 데이터베이스
 HikariCP 4.0.3    │ 고성능 JDBC 커넥션 풀
+JLine 3.21.0      │ 터미널 입력 처리 (한글 지원)
 ```
 
 ### Dependencies
+- **JLine** `3.21.0` - 고급 터미널 입력 라이브러리 (한글 백스페이스 지원)
 - **Lombok** `1.18.30` - 보일러플레이트 코드 제거
 - **SLF4J + Logback** `1.7.36` - 로깅 프레임워크
 - **JUnit** `4.13.2` - 단위 테스트 프레임워크
@@ -205,6 +209,30 @@ ss > exit
 시스템을 종료합니다. Bye! 👋
 ```
 
+### ⌨️ 한글 입력 기능
+
+**JLine 3** 라이브러리를 사용하여 완벽한 한글 입력/편집을 지원합니다!
+
+| 기능 | 설명 | 예시 |
+|:-----|:-----|:-----|
+| ⌫ **백스페이스** | 한글 자모/음절 단위로 정확하게 삭제 | "테스트" → ⌫ → "테스" |
+| ← → **방향키** | 한영 혼합 텍스트에서 커서 이동 | "add 공부하기" 내 자유 이동 |
+| ↑ ↓ **히스토리** | 이전 입력 명령어 탐색 | ↑ 키로 이전 명령어 재사용 |
+| Home/End | 줄 처음/끝으로 이동 | Home: 줄 시작, End: 줄 끝 |
+| Ctrl+C | 현재 입력 취소 (종료 안 됨) | 잘못된 입력 빠르게 취소 |
+| Ctrl+D | 프로그램 종료 | exit 대신 사용 가능 |
+
+**✅ 한글 백스페이스 문제 해결**
+```bash
+# 기존 Scanner 방식의 문제점:
+ss > add 테스트
+     ⌫⌫⌫⌫  ← "테스트" 지우면 "add "가 화면에 남음 ❌
+
+# JLine 3 적용 후:
+ss > add 테스트
+     ⌫⌫⌫⌫  ← 깔끔하게 삭제됨! ✅
+```
+
 ---
 
 ## 🔧 개발 가이드
@@ -246,6 +274,30 @@ public void addTodo(String content) {
 }
 ```
 
+#### 4️⃣ JLine Terminal Input (한글 지원)
+JLine 3를 사용한 고급 터미널 입력 처리:
+
+```java
+// JLine 터미널 생성
+Terminal terminal = TerminalBuilder.builder()
+        .system(true)
+        .encoding("UTF-8")
+        .build();
+
+// LineReader로 입력 받기 (한글 백스페이스 지원)
+LineReader lineReader = LineReaderBuilder.builder()
+        .terminal(terminal)
+        .build();
+
+String input = lineReader.readLine("프롬프트 > ");
+```
+
+**장점:**
+- ✅ 한글 자모/음절 단위 백스페이스
+- ✅ 방향키로 커서 이동
+- ✅ 명령어 히스토리 (↑↓)
+- ✅ Ctrl+C (입력 취소), Ctrl+D (종료)
+
 ### 🧪 테스트 실행
 
 ```bash
@@ -273,6 +325,13 @@ mvn clean package
 - **HikariCP**: 업계 최고 성능의 JDBC 커넥션 풀
 - **MyBatis 캐싱**: SQL 실행 결과 캐싱으로 성능 향상
 - **인덱스 최적화**: `reg_date` 컬럼 인덱스로 조회 성능 개선
+
+### 🇰🇷 한글 처리 최적화
+- **JLine 3**: GNU Readline 수준의 고급 터미널 입력 처리
+- **UTF-8 완전 지원**: Scanner와 System.out 모두 UTF-8 인코딩 설정
+- **문자 폭 계산**: 한글(2바이트), 영문(1바이트) 정확한 폭 계산으로 테이블 정렬
+- **DB 인코딩**: `utf8mb4_unicode_ci` 콜레이션으로 한글 정렬 지원
+- **백스페이스 정상 작동**: 한영 혼합 텍스트 편집 시 커서 위치 정확
 
 ### 🛡️ 코드 품질
 - **계층 분리**: Presentation - Business - Persistence 계층 명확 분리
